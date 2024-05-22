@@ -47,7 +47,7 @@ namespace HotelListing5._0.Repository
 
         public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, List<string> includes = null)
         {
-            IQueryable<T> query = null;
+            IQueryable<T> query = _db;
 
             if (expression != null)
             {
