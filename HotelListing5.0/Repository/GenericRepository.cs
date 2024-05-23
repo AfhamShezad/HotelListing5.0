@@ -34,7 +34,7 @@ namespace HotelListing5._0.Repository
 
         public async Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
         {
-            IQueryable<T> query = null;
+            IQueryable<T> query = _db;
             if (includes != null)
             {
                 foreach (var includeProperty in includes)

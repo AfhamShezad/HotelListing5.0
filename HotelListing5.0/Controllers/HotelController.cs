@@ -4,25 +4,24 @@ using HotelListing5._0.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace HotelListing5._0.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CountryController : ControllerBase
+    public class HotelController : ControllerBase
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<CountryController> _logger;
+        private readonly ILogger<HotelController> _logger;
         private readonly IMapper _mapper;
 
-        public CountryController(IUnitOfWork unitOfWork, ILogger<CountryController> logger, IMapper mapper)
+        public HotelController(IUnitOfWork unitOfWork, ILogger<HotelController> logger, IMapper mapper)
         {
-            
+
             _unitOfWork = unitOfWork;
             _logger = logger;
             _mapper = mapper;
@@ -31,17 +30,18 @@ namespace HotelListing5._0.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCountries()
+
+        public async Task<IActionResult> GetHotels()
         {
             try
             {
-                var countries = await _unitOfWork.Countries.GetAll();
-                var results = _mapper.Map<IList<CountryDTO>>(countries);
+                var hotels = await _unitOfWork.Hotels.GetAll();
+                var results = _mapper.Map<IList<HotelDTO>>(hotels);
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetCountries)}");
+                _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetHotels)}");
                 return StatusCode(500, "Internal Server Error. Please Try Again Later.");
             }
         }
@@ -49,17 +49,18 @@ namespace HotelListing5._0.Controllers
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCountry(int id)
+
+        public async Task<IActionResult> GetHotel(int id)
         {
             try
             {
-                var country = await _unitOfWork.Countries.Get(q => q.Id == id, new List<string> { "Hotels" });
-                var result = _mapper.Map<CountryDTO>(country);
+                var hotel = await _unitOfWork.Hotels.Get(q => q.Id == id, new List<string> { "Country" });
+                var result = _mapper.Map<HotelDTO>(hotel);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetCountry)}");
+                _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetHotel)}");
                 return StatusCode(500, "Internal Server Error. Please Try Again Later.");
             }
         }

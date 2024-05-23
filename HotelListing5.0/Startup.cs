@@ -51,7 +51,7 @@ namespace HotelListing5._0
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelListing5._0", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelListing5.0", Version = "v1" });
             });
 
             services.AddControllers().AddNewtonsoftJson(op =>
