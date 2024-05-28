@@ -31,13 +31,14 @@ namespace HotelListing5._0.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCountries()
+        public async Task<IActionResult> GetCountries([FromQuery] RequestParams requestParams)
         {
             try
             {
-                var countries = await _unitOfWork.Countries.GetAll();
+                var countries = await _unitOfWork.Countries.GetPagedList(requestParams);
                 var results = _mapper.Map<IList<CountryDTO>>(countries);
                 return Ok(results);
             }
@@ -49,21 +50,15 @@ namespace HotelListing5._0.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCountry(int id)
         {
-            try
-            {
                 var country = await _unitOfWork.Countries.Get(q => q.Id == id, new List<string> { "Hotels" });
                 var result = _mapper.Map<CountryDTO>(country);
                 return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something Went Wrong in the {nameof(GetCountry)}");
-                return StatusCode(500, "Internal Server Error. Please Try Again Later.");
-            }
+            
         }
 
         [Authorize(Roles = "Administrator")]

@@ -31,6 +31,7 @@ namespace HotelListing5._0.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
@@ -51,6 +52,7 @@ namespace HotelListing5._0.Controllers
 
         
         [HttpGet("{id:int}", Name = "GetHotel")]
+        [ResponseCache(CacheProfileName = "120SecondsDuration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
 
